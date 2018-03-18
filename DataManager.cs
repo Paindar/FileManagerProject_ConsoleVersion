@@ -84,7 +84,6 @@ namespace FileManagerProject_ConsoleVersion
             table.Clear();
             if (!File.Exists(filename))
                 return;
-            Console.WriteLine("Start reading.");
             using (System.IO.StreamReader file =
                 new StreamReader(filename))
             {
@@ -107,7 +106,6 @@ namespace FileManagerProject_ConsoleVersion
                 }
                 
             }
-            Console.WriteLine($"Loading done , fileInfos={fileInfos.Count}");
         }
 
         public void WriteTo(string filename)
