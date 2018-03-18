@@ -108,7 +108,7 @@ namespace FileManagerProject_ConsoleVersion
          */
         public int GetDirId(string path, int rootId = 0)
         {
-            if (rootId ==0 && path.Length>root.Length && path.Substring(0, root.Length) == root)
+            if (rootId ==0 && path.Length>=root.Length && path.Substring(0, root.Length) == root)
                 path = path.Substring(root.Length);
             string[] dirPaths = path.Split(System.IO.Path.DirectorySeparatorChar);
             int curDir = rootId;
@@ -165,6 +165,10 @@ namespace FileManagerProject_ConsoleVersion
 
             List<KeyValuePair<int, int>> tempRes = new List<KeyValuePair<int, int>>();
             int dirId = GetDirId(path);
+            if(dirId==-1)
+            {
+                return res;
+            }
             Stack<int> stack = new Stack<int>();
             stack.Push(dirId);
             while (stack.Count != 0)

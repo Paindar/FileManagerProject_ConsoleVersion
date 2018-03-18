@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace FileManagerProject_ConsoleVersion
 {
@@ -48,7 +49,6 @@ namespace FileManagerProject_ConsoleVersion
 
             DateTime afterDT = System.DateTime.Now;
             TimeSpan ts = afterDT.Subtract(beforDT);
-            dirManager.FileMgr.WriteTo("file.dat");
             Console.WriteLine("DateTime总共花费{0}ms.", ts.TotalMilliseconds);
             string s;
             while((s=Console.ReadLine())!=null)
@@ -57,9 +57,9 @@ namespace FileManagerProject_ConsoleVersion
                 //Console.WriteLine(Utils.LCS(subArgs[0], subArgs[1]));
                 if(subArgs[0]=="find")
                 {
-                    if(subArgs[1]=="name")
+                    int maxResult = (subArgs.Length == 5 ? Convert.ToInt32(subArgs[4]) : 10);
+                    if (subArgs[1]=="name")
                     {
-                        int maxResult = (subArgs.Length == 5 ? Convert.ToInt32(subArgs[4]) : 10);
                         foreach(int i in dirManager.SearchFilesByName(subArgs[2], subArgs[3]))
                         {
                             if (maxResult < 0)
