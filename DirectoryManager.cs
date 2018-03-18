@@ -143,6 +143,22 @@ namespace FileManagerProject_ConsoleVersion
             res.AddRange(directories[id].Files);
             return res;
         }
+        public bool IsSubDir(string parent, string child) => IsSubDir(GetDirId(parent), GetDirId(child));
+        public bool IsSubDir(int parent, string child) => IsSubDir(parent, GetDirId(child));
+        public bool IsSubDir(string parent, int child) => IsSubDir(GetDirId(parent), child);
+        public bool IsSubDir(int parent, int child)
+        {
+            if (parent == -1 || child == -1)
+                return false;
+            int c_parent = child;
+            while (c_parent != -1)
+            {
+                if (c_parent == parent)
+                    return true;
+                c_parent = directories[child].Parent;
+            }
+            return false;
+        }
         public List<int> SearchFilesByName(string path, string name)
         {
             List<int> res = new List<int>();
@@ -165,6 +181,25 @@ namespace FileManagerProject_ConsoleVersion
             foreach(KeyValuePair<int, int> pair in tempRes)
             {
                 res.Add(pair.Key);
+            }
+            return res;
+        }
+        public List<int> SearchFilesByTag(string path, string tag)
+        {
+            
+            int dirId = GetDirId(path);
+            if (dirId == -1)
+            {
+                return new List<int>();
+            }
+            List<int> res = new List<int>();
+            int pathId = GetDirId(path);
+            foreach(int i in fileManager.GetFileByTag(tag))
+            {
+                if(IsSubDir(pathId, fileManager.GetFile(i).DirectoryName))
+                {
+                    res.Add(i);
+                }
             }
             return res;
         }

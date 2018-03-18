@@ -12,6 +12,7 @@ namespace FileManagerProject_ConsoleVersion
         String MD5;
         long size;
         DateTime time;
+        HashSet<string> tags = new HashSet<string>();
         //TODO may need List<tag> to generate invert table
         public FileIndex(string s)
         {
@@ -22,6 +23,11 @@ namespace FileManagerProject_ConsoleVersion
             MD5 = args[1];
             size = Convert.ToInt64(args[2]);
             time = Convert.ToDateTime(args[3]);
+            for (int i = 4; i < args.Length; i++)
+            {
+                if(args[i]!="")
+                    tags.Add(args[i]);
+            }
         }
         public FileIndex(ref System.IO.FileInfo info)
         {
@@ -46,10 +52,16 @@ namespace FileManagerProject_ConsoleVersion
             builder.Append('\b');
             builder.Append(time.ToString("o"));
             builder.Append('\b');
+            foreach (string tag in tags)
+            {
+                builder.Append(tag);
+                builder.Append('\b');
+            }
             return builder.ToString();
         }
         public string GetFullPath() => path;
         public long GetSize() => size;
         public DateTime GetTime() => this.time;
+        public HashSet<string> Tags { get { return tags; } }
     }
 }

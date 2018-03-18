@@ -68,8 +68,33 @@ namespace FileManagerProject_ConsoleVersion
                             maxResult--;
                         }
                     }
+                    else if(subArgs[1]=="tag")
+                    {
+                        foreach (int i in dirManager.SearchFilesByTag(subArgs[2], subArgs[3]))
+                        {
+                            if (maxResult < 0)
+                                break;
+                            Console.WriteLine("\t" + dirManager.FileMgr.GetFile(i).FullName);
+                            maxResult--;
+                        }
+                    }
+                }
+                else if(subArgs[0]=="tag")
+                {
+                    if(subArgs[1]=="add")
+                    {
+                        int fileId = dirManager.FileMgr.GetFileId(subArgs[2]);
+                        if (fileId == -1)
+                            Console.WriteLine("File doesn't exist.");
+                        else
+                        {
+                            string[] tags = subArgs.Where((val, key) => key >= 3).ToArray();
+                            dirManager.FileMgr.AddTagToFile(fileId, tags);
+                        }
+                    }
                 }
             }
+            dirManager.FileMgr.WriteTo("file.dat");
 
         }
         
